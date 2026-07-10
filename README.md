@@ -16,6 +16,12 @@ O objetivo do projeto foi criar um fluxo mais confiável, rastreável e simples 
 
 \---
 
+## Impacto
+
+A automação reduziu uma rotina operacional que levava cerca de **30 minutos** para **menos de 30 segundos**, representando uma redução aproximada de **98,33% no tempo de execução** e tornando o processo cerca de **60x mais rápido**.
+
+Além do ganho de tempo, o fluxo também melhorou a rastreabilidade, reduziu dependência manual e padronizou a aplicação das regras de distribuição.
+
 ### 2\. Solução
 
 A solução foi organizada em quatro camadas:
