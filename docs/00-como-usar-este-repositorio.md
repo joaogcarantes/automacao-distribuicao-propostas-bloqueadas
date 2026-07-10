@@ -1,6 +1,6 @@
 # 00\. Como usar este repositório
 
-Este repositório foi preparado como um case público de portfólio sobre automação de distribuição de propostas bloqueadas.
+Este repositório foi preparado como um case público de portfólio sobre automação de distribuição de propostas bloqueadas
 
 A estrutura atual do projeto está organizada em cinco áreas principais:
 
