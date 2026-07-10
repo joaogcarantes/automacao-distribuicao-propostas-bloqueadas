@@ -6,7 +6,7 @@ O foco da solução não foi criar uma arquitetura complexa, mas sim estruturar 
 
 ## Fluxo lógico
 
-
+```text
 Arquivo TXT diário
 ↓
 Scripts de cópia
@@ -24,6 +24,7 @@ Regras de negócio
 Fato de distribuição
 ↓
 Power BI
+```
 
 
 ## Componentes
