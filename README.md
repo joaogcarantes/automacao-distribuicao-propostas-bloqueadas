@@ -1,26 +1,36 @@
 ## Automação de Distribuição de Propostas Bloqueadas
 
-Case de portfólio sobre automação de um processo operacional diário de distribuição de demandas. O projeto substitui uma rotina manual baseada em planilhas, filtros e conferências por um fluxo estruturado com scripts, Power Query, regras de negócio, snapshots diários e visualização em Power BI.
+Case de portfólio sobre automação de um processo operacional diário de distribuição de propostas bloqueadas. O projeto substitui uma rotina manual baseada em planilhas, filtros, conferências e ajustes operacionais por um fluxo automatizado com scripts PowerShell, Power Query, regras de negócio, snapshots diários e visualização em Power BI.
 
-**Observação de anonimização:** este repositório usa nomes, caminhos, arquivos e estruturas fictícias. A solução foi inspirada em uma experiência corporativa real, mas não contém links privados, caminhos de rede reais, nomes internos de áreas, dados de clientes, nomes de pessoas ou materiais confidenciais.
+A solução foi construída para transformar uma atividade repetitiva e dependente de intervenção manual em um processo mais rápido, padronizado, rastreável e menos sujeito a inconsistências.
+
+\---
+
+### Impacto
+
+A automação reduziu uma rotina operacional que levava cerca de **30 minutos** para **menos de 30 segundos**.
+
+Isso representa uma redução aproximada de **98,33% no tempo de execução** e tornou o processo cerca de **60x mais rápido**.
+
+Além do ganho de tempo, a solução também trouxe benefícios relevantes para a operação:
+
+* reduziu a dependência de execução manual;
+* padronizou a aplicação das regras de distribuição;
+* melhorou a rastreabilidade da base utilizada em cada ciclo;
+* diminuiu o risco de erro em filtros, fórmulas e conferências manuais;
+* facilitou a continuidade operacional por meio de documentação, scripts e queries estruturadas.
 
 \---
 
 ### 1\. Contexto
 
-Em uma operação de análise/subscrição, propostas bloqueadas precisam ser distribuídas diariamente para subscritores responsáveis de acordo com regras de negócio, unidade, histórico, exceções manuais e ausências.
+Em uma operação de análise/subscrição, propostas bloqueadas precisam ser distribuídas diariamente para responsáveis de acordo com regras de negócio, unidade, histórico, exceções manuais e ausências.
 
-Antes da automação, o processo dependia de etapas manuais como abertura de arquivos, identificação da base do dia, comparação com o dia anterior, PROCVs, filtros por regra de bloqueio, tratamento de exceções e redistribuição quando um responsável estava ausente.
+Antes da automação, o processo dependia de etapas manuais como abertura de arquivos, identificação da base do dia, comparação com o dia anterior, uso de fórmulas de busca, filtros por regra de bloqueio, tratamento de exceções e redistribuição quando um responsável estava ausente.
 
-O objetivo do projeto foi criar um fluxo mais confiável, rastreável e simples de operar, reduzindo dependência manual e melhorando a consistência da distribuição diária.
+Esse modelo exigia tempo, atenção constante e conhecimento operacional concentrado. A automação foi criada para substituir esse fluxo manual por uma rotina mais confiável, simples de executar e fácil de auditar.
 
 \---
-
-## Impacto
-
-A automação reduziu uma rotina operacional que levava cerca de **30 minutos** para **menos de 30 segundos**, representando uma redução aproximada de **98,33% no tempo de execução** e tornando o processo cerca de **60x mais rápido**.
-
-Além do ganho de tempo, o fluxo também melhorou a rastreabilidade, reduziu dependência manual e padronizou a aplicação das regras de distribuição.
 
 ### 2\. Solução
 
@@ -29,7 +39,7 @@ A solução foi organizada em quatro camadas:
 * **Entrada de dados:** arquivos TXT diários contendo propostas bloqueadas para dois grupos operacionais fictícios: Produto A e Produto B.
 * **Preparação operacional:** scripts PowerShell e arquivos BAT copiam os arquivos de origem, padronizam os nomes de saída e geram arquivos de metadados `.meta` para auditoria da data de referência.
 * **Transformação em Power Query:** queries em M fazem limpeza, tipagem, elegibilidade, comparação com snapshot anterior, aplicação de atribuições manuais, mapeamento de responsáveis e redistribuição por ausência.
-* **Consumo analítico:** a base final pode alimentar um modelo em Power BI com visão operacional, filtros e segmentações por responsável, status, unidade, data e regra.
+* **Consumo analítico:** a base final alimenta um modelo em Power BI com visão operacional, filtros e segmentações por responsável, status, unidade, data e regra.
 
 Fluxo resumido:
 
@@ -56,10 +66,10 @@ Arquivo TXT diário
 * Aplicação de regras de elegibilidade por flags e janela de datas.
 * Mapeamento de responsável por unidade.
 * Sobrescrita por atribuição manual quando necessário.
-* Redistribuição automática quando o responsável original está ausente (férias, por exemplo).
+* Redistribuição automática quando o responsável original está ausente.
 * Separação lógica entre Produto A e Produto B.
 * Padronização de funções compartilhadas em Power Query.
-* Preparação de base final para modelo operacional (dashboard) em Power BI.
+* Preparação de base final para modelo operacional em Power BI.
 
 \---
 
@@ -93,22 +103,22 @@ Exemplo de campos de saída:
 
 |Campo|Descrição|
 |-|-|
-|`ID\\\_PROPOSTA`|Identificador fictício da proposta|
-|`DATASET\\\_DATE`|Data de referência da distribuição|
-|`STATUS\\\_FINAL`|Classificação final da proposta|
-|`DATA\\\_PROPOSTA`|Data original da proposta|
+|`ID\_PROPOSTA`|Identificador fictício da proposta|
+|`DATASET\_DATE`|Data de referência da distribuição|
+|`STATUS\_FINAL`|Classificação final da proposta|
+|`DATA\_PROPOSTA`|Data original da proposta|
 |`UNIDADE`|Unidade ou região responsável|
 |`ATIVIDADE`|Tipo de atividade/categoria|
-|`RESPONSAVEL\\\_ANTERIOR`|Responsável identificado no snapshot anterior|
-|`RESPONSAVEL\\\_AJUSTADO`|Responsável informado manualmente, quando houver|
-|`RESPONSAVEL\\\_DESTINO`|Responsável calculado antes da redistribuição|
-|`RESPONSAVEL\\\_FINAL`|Responsável final após regras e exceções|
-|`DESTINO\\\_EM\\\_AUSENCIAS`|Indica se o responsável destino estava ausente|
-|`FLAG\\\_JANELA`|Indicador genérico de regra por janela|
-|`FLAG\\\_PRIORIDADE\\\_A`|Indicador genérico de regra prioritária A|
-|`FLAG\\\_PRIORIDADE\\\_B`|Indicador genérico de regra prioritária B|
-|`VALOR\\\_PREMIO`|Valor financeiro fictício da proposta|
-|`LB\\\_DATE`|Data-base do snapshot anterior|
+|`RESPONSAVEL\_ANTERIOR`|Responsável identificado no snapshot anterior|
+|`RESPONSAVEL\_AJUSTADO`|Responsável informado manualmente, quando houver|
+|`RESPONSAVEL\_DESTINO`|Responsável calculado antes da redistribuição|
+|`RESPONSAVEL\_FINAL`|Responsável final após regras e exceções|
+|`DESTINO\_EM\_AUSENCIAS`|Indica se o responsável destino estava ausente|
+|`FLAG\_JANELA`|Indicador genérico de regra por janela|
+|`FLAG\_PRIORIDADE\_A`|Indicador genérico de regra prioritária A|
+|`FLAG\_PRIORIDADE\_B`|Indicador genérico de regra prioritária B|
+|`VALOR\_PREMIO`|Valor financeiro fictício da proposta|
+|`LB\_DATE`|Data-base do snapshot anterior|
 
 \---
 
