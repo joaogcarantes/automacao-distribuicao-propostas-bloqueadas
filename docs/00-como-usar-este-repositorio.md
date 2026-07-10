@@ -5,13 +5,13 @@ Este repositório foi preparado como um case público de portfólio sobre automa
 A estrutura atual do projeto está organizada em cinco áreas principais:
 
 
-
+```text
 assets/
 docs/
 power-query/
 sample-data/
 scripts/
-
+```
 
 
 ## Ordem recomendada de leitura
